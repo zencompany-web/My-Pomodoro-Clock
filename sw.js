@@ -1,7 +1,5 @@
+const CACHE_NAME = 'pixel-pomo-v7';
 
-const CACHE_NAME = 'pixel-pomo-v5';
-
-// Using relative paths everywhere
 const ASSETS = [
   './',
   './index.html',
@@ -21,9 +19,7 @@ const ASSETS = [
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
   self.skipWaiting();
 });
@@ -41,15 +37,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+      if (cachedResponse) return cachedResponse;
       return fetch(event.request).then((networkResponse) => {
-        if (event.request.url.includes('fonts.googleapis') || event.request.url.includes('fonts.gstatic')) {
+        if (event.request.url.includes('googleapi') || event.request.url.includes('gstatic')) {
           const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
         }
         return networkResponse;
       });
