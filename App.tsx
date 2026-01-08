@@ -53,14 +53,13 @@ const App: React.FC = () => {
     localStorage.setItem(STORAGE_KEY_PROGRESS, JSON.stringify(progress));
   }, [progress]);
 
-  // Robust Wake Lock Logic
+  // Robust Wake Lock Logic - Prevents NotAllowedError from crashing the app
   const requestWakeLock = async () => {
     if ('wakeLock' in navigator) {
       try {
         wakeLockRef.current = await (navigator as any).wakeLock.request('screen');
-      } catch (err) {
-        // Silently fail if policy disallows it
-        console.warn("Screen Wake Lock could not be acquired:", err.message);
+      } catch (err: any) {
+        console.warn(`Wake Lock could not be acquired: ${err.name} - ${err.message}`);
       }
     }
   };
@@ -137,7 +136,7 @@ const App: React.FC = () => {
     if (mode !== TimerMode.IDLE && timeLeft > 0) {
       timerRef.current = setInterval(() => {
         setTimeLeft(prev => {
-          if (mode === TimerMode.FOCUS && (prev > 0 && prev % 60 === 0)) {
+          if (mode === TimerMode.FOCUS && (prev > 0 && prev % 60 === 0 && prev !== settings.focusDuration * 60)) {
             setProgress(p => ({ ...p, totalMinutesFocused: p.totalMinutesFocused + 1 }));
           }
           return prev - 1;

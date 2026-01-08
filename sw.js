@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pixel-pomo-v7';
+const CACHE_NAME = 'pixel-pomo-v8';
 
 const ASSETS = [
   './',

@@ -10,7 +10,6 @@
     <link rel="manifest" href="./manifest.json">
     <title>My Pomodoro Clock</title>
     
-    <!-- Scripts for Browser Compatibility -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     
@@ -23,25 +22,19 @@
         --app-height: 100dvh;
       }
       body { 
-        margin: 0; 
-        padding: 0; 
-        background-color: #0f0f0f; 
+        margin: 0; padding: 0; background-color: #0f0f0f; 
         color: white;
         -webkit-tap-highlight-color: transparent;
         overscroll-behavior-y: none;
         height: var(--app-height);
         overflow: hidden;
-        /* Handle iPhone Notches */
+        /* Padding for device notches */
         padding-top: env(safe-area-inset-top);
         padding-bottom: env(safe-area-inset-bottom);
         padding-left: env(safe-area-inset-left);
         padding-right: env(safe-area-inset-right);
       }
-      #root {
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-      }
+      #root { height: 100%; display: flex; flex-direction: column; }
       .pixel-rendering { image-rendering: pixelated; }
       .no-scrollbar::-webkit-scrollbar { display: none; }
       .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -63,21 +56,6 @@
 </head>
 <body>
     <div id="root"></div>
-    
-    <script type="text/babel" data-type="module">
-      import React from 'react';
-      import { createRoot } from 'react-dom/client';
-      import App from './App.tsx';
-
-      const container = document.getElementById('root');
-      const root = createRoot(container);
-      root.render(<App />);
-
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js').catch(() => {});
-        });
-      }
-    </script>
+    <!-- index.tsx is automatically imported by the environment -->
 </body>
 </html>
