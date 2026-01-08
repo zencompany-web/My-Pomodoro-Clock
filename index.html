@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f0f">
     
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <title>My Pomodoro Clock</title>
     
     <!-- Scripts for "Zero-Build" Browser Compatibility -->
@@ -50,8 +50,7 @@
       import React from 'react';
       import { createRoot } from 'react-dom/client';
       
-      // We'll import the components directly as modules
-      // Note: In a true zero-build env, we point to the local files
+      // Relative import is critical for GitHub Pages
       import App from './App.tsx';
 
       const root = createRoot(document.getElementById('root'));
@@ -59,7 +58,8 @@
 
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('./sw.js');
+          // Use relative path for service worker
+          navigator.serviceWorker.register('./sw.js').catch(err => console.error("SW registration failed", err));
         });
       }
     </script>

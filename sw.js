@@ -1,7 +1,7 @@
 
-const CACHE_NAME = 'pixel-pomo-v4';
+const CACHE_NAME = 'pixel-pomo-v5';
 
-// Explicitly list all local files needed for the app to run without a build step
+// Using relative paths everywhere
 const ASSETS = [
   './',
   './index.html',
@@ -11,7 +11,6 @@ const ASSETS = [
   './constants.tsx',
   './components/PixelCharacter.tsx',
   './components/ConfigPanel.tsx',
-  // CDN Dependencies
   'https://cdn.tailwindcss.com',
   'https://unpkg.com/@babel/standalone/babel.min.js',
   'https://esm.sh/react@19.0.0',
@@ -46,7 +45,6 @@ self.addEventListener('fetch', (event) => {
         return cachedResponse;
       }
       return fetch(event.request).then((networkResponse) => {
-        // Cache external fonts or styles requested on the fly
         if (event.request.url.includes('fonts.googleapis') || event.request.url.includes('fonts.gstatic')) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
